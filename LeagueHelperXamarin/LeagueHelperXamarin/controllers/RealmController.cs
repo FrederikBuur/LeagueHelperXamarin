@@ -12,7 +12,18 @@ namespace LeagueHelperXamarin.controllers
         public static MetaData getMetaData()
         {
             var realm = Realm.GetInstance();
-            return realm.All<MetaData>().First();
+            List<MetaData> md = realm.All<MetaData>().ToList();
+
+            if (md.Count < 1)
+            {
+                MetaData m = new MetaData("0.0.0");
+                createOrUpdateMetaData(m);
+                return m;
+            }
+            else
+            {
+                return md.First();
+            }
         }
 
         public static void createOrUpdateMetaData(MetaData metaData)

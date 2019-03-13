@@ -100,10 +100,5 @@
       <Name>LeagueHelperXamarin</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Content Include="FodyWeavers.xml">
-      <SubType>Designer</SubType>
-    </Content>
-  </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
 </Project>

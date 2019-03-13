@@ -7,8 +7,14 @@ namespace LeagueHelperXamarin.models
 {
     public class MetaData : RealmObject
     {
-        private int id = 1;
+        [PrimaryKey]
+        public int id { get; set; } = 1;
         public string localVersion { get; set; } = "";
+
+        public MetaData()
+        {
+
+        }
 
         public MetaData(string localVersion)
         {

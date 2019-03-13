@@ -28,6 +28,11 @@ namespace LeagueHelperXamarin.controllers
                         SessionController.getInstance().metaData = md;
                         RealmController.createOrUpdateMetaData(md);
                     }
+                    else
+                    {
+                        // everything up to date
+                        Console.WriteLine("everything up to date");
+                    }
                 }
                 else
                 {

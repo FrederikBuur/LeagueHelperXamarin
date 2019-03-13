@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using Realms;
 
 namespace LeagueHelperXamarin.models
 {
-    class ChampionsResponse
+    public class Image : RealmObject
     {
-        public Dictionary<string, Champion>[] data;
+        public string full { get; set; }
     }
 }
