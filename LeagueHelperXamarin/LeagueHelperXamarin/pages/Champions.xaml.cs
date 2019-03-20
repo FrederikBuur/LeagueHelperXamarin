@@ -1,4 +1,5 @@
-﻿using System;
+﻿using LeagueHelperXamarin.controllers;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -14,6 +15,7 @@ namespace LeagueHelperXamarin.pages
         public Champions()
         {
             InitializeComponent();
+            listView.ItemsSource = RealmController.getChampions();
         }
     }
 }

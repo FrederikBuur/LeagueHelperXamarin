@@ -7,6 +7,6 @@ namespace LeagueHelperXamarin.models
 {
     public class Image : RealmObject
     {
-        public string full { get; set; }
+        public string Full { get; set; }
     }
 }

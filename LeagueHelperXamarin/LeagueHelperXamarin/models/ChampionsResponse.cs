@@ -4,8 +4,9 @@ using System.Text;
 
 namespace LeagueHelperXamarin.models
 {
-    class ChampionsResponse
+    public class ChampionsResponse
     {
-        public Dictionary<string, Champion>[] data;
+        public string Version { get; set; }
+        public Dictionary<string, Champion> Data { get; set; }
     }
 }

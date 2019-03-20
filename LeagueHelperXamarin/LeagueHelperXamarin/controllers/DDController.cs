@@ -4,6 +4,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Net.Http;
 using LeagueHelperXamarin.models;
+using Newtonsoft.Json;
 
 namespace LeagueHelperXamarin.controllers
 {
@@ -14,19 +15,22 @@ namespace LeagueHelperXamarin.controllers
             string path = "api/versions.json";
             using (HttpResponseMessage response = await ApiHelper.DDApiClient.GetAsync(path))
             {
+                var localVersion = new Version(RealmController.getMetaData().localVersion);
                 if (response.IsSuccessStatusCode)
                 {
                     string[] versions = await response.Content.ReadAsAsync<string[]>();
                     var newestVersion = new Version(versions[0]);
-                    var localVersion = new Version(RealmController.getMetaData().localVersion);
 
                     if (localVersion == null || localVersion.Equals("") ||
                         newestVersion.CompareTo(localVersion) > 0)
                     {
                         // save newest verison local and update
+                        Console.WriteLine("save newest verison local and update");
                         MetaData md = new MetaData(newestVersion.ToString());
                         SessionController.getInstance().metaData = md;
-                        RealmController.createOrUpdateMetaData(md);
+                        //RealmController.createOrUpdateMetaData(md); // TODO: remember to use this
+                        // update champions
+                        await FetchAndSaveChampions();
                     }
                     else
                     {
@@ -36,6 +40,7 @@ namespace LeagueHelperXamarin.controllers
                 }
                 else
                 {
+                    Console.WriteLine("error getting version");
                     throw new Exception(response.ReasonPhrase);
                 }
             }
@@ -49,7 +54,13 @@ namespace LeagueHelperXamarin.controllers
             {
                 if (response.IsSuccessStatusCode)
                 {
-
+                    var championResponse = await response.Content.ReadAsAsync<ChampionsResponse>();
+                    List<Champion> champions = new List<Champion>();
+                    foreach (Champion c in championResponse.Data.Values)
+                    {
+                        champions.Add(c);
+                    }
+                    RealmController.createOrUpdateChampions(champions);
                 }
                 else
                 {
