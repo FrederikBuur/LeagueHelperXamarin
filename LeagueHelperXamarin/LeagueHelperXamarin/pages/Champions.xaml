@@ -4,26 +4,34 @@
              x:Class="LeagueHelperXamarin.pages.Champions"
              Title="Champions">
     <ContentPage.Content>
-        <ListView x:Name="listView" HasUnevenRows="True">
-            <ListView.ItemTemplate>
-                <DataTemplate>
-                    <ViewCell Height="80">
-                        <StackLayout Padding="5" Orientation="Horizontal" VerticalOptions="Fill">
-                            <Image x:Name="img" Aspect="AspectFit" HeightRequest="60" WidthRequest="60">
-                                <Image.Source>
-                                    <UriImageSource Uri="{Binding ChampImageUrl}"/>
-                                </Image.Source>
-                            </Image>
-                            <StackLayout Orientation="Vertical" VerticalOptions="Start" Spacing="0">
-                                <Label x:Name="name" FontSize="Large"
+        <StackLayout Spacing="0">
+            <SearchBar TextChanged="SearchBar_TextChanged"
+                       Placeholder="Search Champion..."
+                       />
+            <ListView x:Name="listView" 
+                  HasUnevenRows="True"
+                  ItemSelected="ChampionOnClick"
+                  SelectionMode="Single">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell Height="80">
+                            <StackLayout Padding="5" Orientation="Horizontal" VerticalOptions="Fill">
+                                <Image x:Name="img" Aspect="AspectFit" HeightRequest="60" WidthRequest="60">
+                                    <Image.Source>
+                                        <UriImageSource Uri="{Binding ChampIconImageUrl}"/>
+                                    </Image.Source>
+                                </Image>
+                                <StackLayout Orientation="Vertical" VerticalOptions="Start" Spacing="0">
+                                    <Label x:Name="name" FontSize="Large"
                                    Text="{Binding Name}"/>
-                                <Label x:Name="title"
+                                    <Label x:Name="title"
                                    Text="{Binding Title}"/>
+                                </StackLayout>
                             </StackLayout>
-                        </StackLayout>
-                    </ViewCell>
-                </DataTemplate>
-            </ListView.ItemTemplate>
-        </ListView>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </StackLayout>
     </ContentPage.Content>
 </ContentPage>
