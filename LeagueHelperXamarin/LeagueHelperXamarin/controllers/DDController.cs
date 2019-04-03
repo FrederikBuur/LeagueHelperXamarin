@@ -13,36 +13,43 @@ namespace LeagueHelperXamarin.controllers
         public static async Task CheckForUpdates()
         {
             string path = "api/versions.json";
-            using (HttpResponseMessage response = await ApiHelper.DDApiClient.GetAsync(path))
+            try
             {
-                var localVersion = new Version(RealmController.getMetaData().localVersion);
-                if (response.IsSuccessStatusCode)
+                using (HttpResponseMessage response = await ApiHelper.DDApiClient.GetAsync(path))
                 {
-                    string[] versions = await response.Content.ReadAsAsync<string[]>();
-                    var newestVersion = new Version(versions[0]);
-
-                    if (localVersion == null || localVersion.Equals("") ||
-                        newestVersion.CompareTo(localVersion) > 0)
+                    var localVersion = new Version(RealmController.getMetaData().localVersion);
+                    if (response.IsSuccessStatusCode)
                     {
-                        // save newest verison local and update
-                        Console.WriteLine("save newest verison local and update");
-                        MetaData md = new MetaData(newestVersion.ToString());
-                        SessionController.getInstance().metaData = md;
-                        //RealmController.createOrUpdateMetaData(md); // TODO: remember to use this
-                        // update champions
-                        await FetchAndSaveChampions();
+                        string[] versions = await response.Content.ReadAsAsync<string[]>();
+                        var newestVersion = new Version(versions[0]);
+
+                        if (localVersion == null || localVersion.Equals("") ||
+                            newestVersion.CompareTo(localVersion) > 0)
+                        {
+                            // save newest verison local and update
+                            Console.WriteLine("save newest verison local and update");
+                            MetaData md = new MetaData(newestVersion.ToString());
+                            SessionController.getInstance().metaData = md;
+                            //RealmController.createOrUpdateMetaData(md); // TODO: remember to use this
+                            // update champions
+                            await FetchAndSaveChampions();
+                        }
+                        else
+                        {
+                            // everything up to date
+                            Console.WriteLine("everything up to date");
+                        }
                     }
                     else
                     {
-                        // everything up to date
-                        Console.WriteLine("everything up to date");
+                        Console.WriteLine("error getting version");
+                        //throw new Exception(response.ReasonPhrase);
                     }
                 }
-                else
-                {
-                    Console.WriteLine("error getting version");
-                    throw new Exception(response.ReasonPhrase);
-                }
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
             }
         }
 
@@ -50,22 +57,30 @@ namespace LeagueHelperXamarin.controllers
         {
             string version = SessionController.getInstance().metaData.localVersion;
             string path = $"cdn/{version}/data/en_US/champion.json";
-            using (HttpResponseMessage response = await ApiHelper.DDApiClient.GetAsync(path))
+            try
             {
-                if (response.IsSuccessStatusCode)
+                using (HttpResponseMessage response = await ApiHelper.DDApiClient.GetAsync(path))
                 {
-                    var championResponse = await response.Content.ReadAsAsync<ChampionsResponse>();
-                    List<Champion> champions = new List<Champion>();
-                    foreach (Champion c in championResponse.Data.Values)
+                    if (response.IsSuccessStatusCode)
                     {
-                        champions.Add(c);
+                        var championResponse = await response.Content.ReadAsAsync<ChampionsResponse>();
+                        List<Champion> champions = new List<Champion>();
+                        foreach (Champion c in championResponse.Data.Values)
+                        {
+                            champions.Add(c);
+                        }
+                        RealmController.createOrUpdateChampions(champions);
                     }
-                    RealmController.createOrUpdateChampions(champions);
+                    else
+                    {
+                        Console.WriteLine("Error?");
+                        //throw new Exception(response.ReasonPhrase);
+                    }
                 }
-                else
-                {
-                    throw new Exception(response.ReasonPhrase);
-                }
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
             }
         }
     }

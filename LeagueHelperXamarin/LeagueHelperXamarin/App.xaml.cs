@@ -13,6 +13,7 @@ namespace LeagueHelperXamarin
             InitializeComponent();
 
             ApiHelper.InitDDClient();
+            ApiHelper.InitRiotClient();
 
             MainPage = new NavigationPage(new MainPage());
         }

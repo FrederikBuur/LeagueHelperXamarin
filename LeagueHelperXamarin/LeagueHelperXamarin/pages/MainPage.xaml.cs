@@ -12,6 +12,7 @@ namespace LeagueHelperXamarin
     {
         public MainPage()
         {
+            NavigationPage.SetHasNavigationBar(this, false);
             InitializeComponent();
 
         }
@@ -19,7 +20,14 @@ namespace LeagueHelperXamarin
         protected async override void OnAppearing()
         {
             base.OnAppearing();
-            await DDController.CheckForUpdates();
+            try
+            {
+                await DDController.CheckForUpdates();
+            }
+            catch (Exception e)
+            {
+                await DisplayAlert("Error", e.Message, "Ok");
+            }
         }
     }
 }

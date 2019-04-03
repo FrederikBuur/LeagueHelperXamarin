@@ -18,7 +18,7 @@ namespace LeagueHelperXamarin.pages
 
         public Champions()
         {
-            NavigationPage.SetHasNavigationBar(this, false);
+            //NavigationPage.SetHasNavigationBar(this, false);
             InitializeComponent();
             championList = RealmController.getChampions();
             listView.ItemsSource = championList;
@@ -47,5 +47,16 @@ namespace LeagueHelperXamarin.pages
                 listView.ItemsSource = championList.Where(c => c.Name.ToLower().StartsWith(e.NewTextValue.ToLower()));
             }
         }
+
+        protected override void OnAppearing()
+        {
+            base.OnAppearing();
+            if (championList == null)
+            {
+                championList = RealmController.getChampions();
+                listView.ItemsSource = championList;
+            }
+        }
     }
+
 }

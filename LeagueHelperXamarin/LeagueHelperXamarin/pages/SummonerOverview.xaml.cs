@@ -13,7 +13,7 @@ namespace LeagueHelperXamarin.pages
     {
         public SummonerOverview()
         {
-            NavigationPage.SetHasNavigationBar(this, false);
+            //NavigationPage.SetHasNavigationBar(this, false);
             InitializeComponent();
         }
     }
