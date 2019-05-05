@@ -1,13 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="LeagueHelperXamarin.pages.SummonerOverview"
-             Title="Summoner">
+             x:Class="LeagueHelperXamarin.pages.SummonerOverview">
     <ContentPage.Content>
-        <StackLayout>
-            <Label Text="Summoner overview!"
-                VerticalOptions="CenterAndExpand" 
-                HorizontalOptions="CenterAndExpand" />
-        </StackLayout>
+        <Label Text="hey"/>
     </ContentPage.Content>
 </ContentPage>

@@ -26,6 +26,22 @@ namespace LeagueHelperXamarin.controllers
             }
         }
 
+        public static SummonerData getSummonerData()
+        {
+            var realm = Realm.GetInstance();
+            List<SummonerData> sd = realm.All<SummonerData>().ToList();
+
+            if (sd.Count > 1)
+            {
+                return sd.Single();
+            }
+            else
+            {
+                return null;
+            }
+
+        }
+
         public static List<Champion> getChampions()
         {
             var realm = Realm.GetInstance();
@@ -47,6 +63,15 @@ namespace LeagueHelperXamarin.controllers
             realm.Write(() =>
             {
                 realm.Add(metaData, true);
+            });
+        }
+
+        public static void createOrUpdateSummonerData(SummonerData summonerData)
+        {
+            var realm = Realm.GetInstance();
+            realm.Write(() =>
+            {
+                realm.Add(summonerData, true);
             });
         }
 

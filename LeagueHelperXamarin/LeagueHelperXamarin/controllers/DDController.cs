@@ -30,12 +30,17 @@ namespace LeagueHelperXamarin.controllers
                             Console.WriteLine("save newest verison local and update");
                             MetaData md = new MetaData(newestVersion.ToString());
                             SessionController.getInstance().metaData = md;
-                            //RealmController.createOrUpdateMetaData(md); // TODO: remember to use this
+                            RealmController.createOrUpdateMetaData(md); // TODO: remember to use this
                             // update champions
                             await FetchAndSaveChampions();
                         }
                         else
                         {
+                            if (RealmController.getChampions() == null)
+                            {
+                                SessionController.getInstance().metaData = RealmController.getMetaData();
+                                await FetchAndSaveChampions();
+                            }
                             // everything up to date
                             Console.WriteLine("everything up to date");
                         }

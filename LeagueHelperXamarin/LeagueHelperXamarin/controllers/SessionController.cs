@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using LeagueHelperXamarin.models;
+using LeagueHelperXamarin.models.response;
 
 namespace LeagueHelperXamarin.controllers
 {
@@ -10,7 +11,8 @@ namespace LeagueHelperXamarin.controllers
         private static SessionController instance { get; set; } = null;
 
         public MetaData metaData { get; set; }
-        public string currentSummoner { get; set; }
+        public SummonerData summonerData { get; set; }
+        public LeagueEntityResponse leagueEntityResponse { get; set; }
 
         public static SessionController getInstance()
         {

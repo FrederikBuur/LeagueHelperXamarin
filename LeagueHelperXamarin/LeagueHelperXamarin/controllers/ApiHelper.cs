@@ -8,7 +8,7 @@ namespace LeagueHelperXamarin.controllers
 {
     public static class ApiHelper
     {
-        public static string API_KEY = "RGAPI-0f9aa9d7-20ba-4359-a396-11608496a749";
+        public static string API_KEY = "RGAPI-2c5fd050-b20b-40e7-a198-8fb8dd29949a";
 
         public static HttpClient DDApiClient { get; set; }
         public static HttpClient RiotApiClient { get; set; }
@@ -32,6 +32,7 @@ namespace LeagueHelperXamarin.controllers
                 RiotApiClient.BaseAddress = new Uri("https://euw1.api.riotgames.com/lol/");
                 RiotApiClient.DefaultRequestHeaders.Accept.Clear();
                 RiotApiClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("applicaiton/json"));
+                //RiotApiClient.DefaultRequestHeaders.Add("api_key", API_KEY);
             }
         }
     }
