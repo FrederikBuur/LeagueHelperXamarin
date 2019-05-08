@@ -24,43 +24,55 @@ namespace LeagueHelperXamarin.pages
         {
             this.summonerData = summonerData;
 
-            //NavigationPage.SetHasNavigationBar(this, false);
-            try
-            {
-                InitializeComponent();
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e.Message);
-            }
+            NavigationPage.SetHasNavigationBar(this, false);
 
-            //setupViews();
+            InitializeComponent();
+
+            setupViews();
         }
 
-        private async void setupViews()
+        private void setupViews()
         {
 
-            await RiotController.FetchSummonerRank(summonerData.SummonerId).ContinueWith(task =>
-           {
-               LeagueEntityResponse ler = task.Result;
-               Device.BeginInvokeOnMainThread(() =>
-               {
-                   //summonerName.Text = summonerData.Name;
-                   //level.Text = summonerData.Level.ToString();
-                   //rank.Text = $"{ler.Tier} {ler.Rank} ({ler.LeaguePoints} LP)";
-                   //profileIcon.Source = Image.getProfileIconImagePath(summonerData.profileIconId,
-                   //    SessionController.getInstance().metaData.localVersion);
-                   // insert win ratio
-               });
-           });
+            fetchSummonerDetails();
+            fetchSummonerMacthHistory();
 
-            /*
-            await RiotController.FetchSummonerMatches(summonerData.AccountId).ContinueWith(task =>
-            {
-                //TODO
-            });
-            */
         }
 
+        private void fetchSummonerDetails()
+        {
+            RiotController.FetchSummonerRank(summonerData.SummonerId).ContinueWith(task =>
+            {
+                LeagueEntityResponse ler = task.Result;
+                Device.BeginInvokeOnMainThread(() =>
+                {
+                    name.Text = summonerData.Name;
+                    level.Text = $"Level {summonerData.Level.ToString()}";
+                    if (ler != null)
+                    {
+                        rank.Text = $"{ler.Tier} {ler.Rank} ({ler.LeaguePoints} LP) {ler.Wins}W {ler.Losses}L";
+                        String wr = string.Format("{0:0.0}", (float)ler.Wins / (float)(ler.Wins + ler.Losses) * 100);
+                        winrate.Text = $"Win Ratio: {wr}%";
+                    }
+                    profileIcon.Source = Image.getProfileIconImagePath(summonerData.profileIconId,
+                          SessionController.getInstance().metaData.localVersion);
+                });
+            });
+        }
+
+        private void fetchSummonerMacthHistory()
+        {
+            RiotController.FetchSummonerMatches(summonerData.AccountId, 0, 10).ContinueWith(task =>
+            {
+                MatchDetailResponse[] mdr = task.Result;
+                matchesListView.ItemsSource = mdr;
+
+            });
+        }
+
+        private void MatcheOnClick(object sender, SelectedItemChangedEventArgs e)
+        {
+            // TODO
+        }
     }
 }

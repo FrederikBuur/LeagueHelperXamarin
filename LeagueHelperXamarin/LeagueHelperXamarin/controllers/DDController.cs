@@ -36,9 +36,10 @@ namespace LeagueHelperXamarin.controllers
                         }
                         else
                         {
+                            SessionController.getInstance().metaData = RealmController.getMetaData();
+
                             if (RealmController.getChampions() == null)
                             {
-                                SessionController.getInstance().metaData = RealmController.getMetaData();
                                 await FetchAndSaveChampions();
                             }
                             // everything up to date

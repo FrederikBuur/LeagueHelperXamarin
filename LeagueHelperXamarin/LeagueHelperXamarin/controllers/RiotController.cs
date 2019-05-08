@@ -63,7 +63,8 @@ namespace LeagueHelperXamarin.controllers
                                  select entity;
 
                         SessionController.getInstance().leagueEntityResponse = le.First();
-                        return le.First();
+
+                        return le.FirstOrDefault();
                     }
                     else
                     {
@@ -78,9 +79,9 @@ namespace LeagueHelperXamarin.controllers
             }
         }
 
-        public static async Task<MatchListResponse> FetchSummonerMatches(string accountId)
+        public static async Task<MatchDetailResponse[]> FetchSummonerMatches(string accountId, int beginIndex, int endIndex)
         {
-            string path = $"match/v4/matchlists/by-account/{accountId}";
+            string path = $"match/v4/matchlists/by-account/{accountId}?beginIndex={beginIndex}&endIndex={endIndex}&api_key={ApiHelper.API_KEY}";
             try
             {
                 using (HttpResponseMessage response = await ApiHelper.RiotApiClient.GetAsync(path))
@@ -89,11 +90,44 @@ namespace LeagueHelperXamarin.controllers
                     if (response.IsSuccessStatusCode)
                     {
                         MatchListResponse matchesResponse = await response.Content.ReadAsAsync<MatchListResponse>();
-                        return matchesResponse;
+
+                        List<MatchDetailResponse> matchList = new List<MatchDetailResponse>();
+
+                        var tasks = matchesResponse.Matches.Select(i => FetchMatch(i.GameId));
+                        var matches = await Task.WhenAll(tasks);
+
+                        return matches;
                     }
                     else
                     {
                         Console.WriteLine("error getting summoner match history");
+                        return null;
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+        }
+
+        public static async Task<MatchDetailResponse> FetchMatch(long gameId)
+        {
+            string path = $"match/v4/matches/{gameId}?api_key={ApiHelper.API_KEY}";
+            try
+            {
+                using (HttpResponseMessage response = await ApiHelper.RiotApiClient.GetAsync(path))
+                {
+
+                    if (response.IsSuccessStatusCode)
+                    {
+                        MatchDetailResponse matchResponse = await response.Content.ReadAsAsync<MatchDetailResponse>();
+
+                        return matchResponse;
+                    }
+                    else
+                    {
+                        Console.WriteLine("error getting summoner match");
                         return null;
                     }
                 }

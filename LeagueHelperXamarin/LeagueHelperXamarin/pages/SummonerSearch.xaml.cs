@@ -78,9 +78,13 @@ namespace LeagueHelperXamarin.pages
             return isValidName;
         }
 
-        private async void NavigateToSummonerOverview(SummonerData sumData)
+        private void NavigateToSummonerOverview(SummonerData sumData)
         {
-            await Navigation.PushAsync(new SummonerOverview(sumData));
+            Device.BeginInvokeOnMainThread(() =>
+            {
+                Navigation.PushAsync(new SummonerOverview(sumData));
+            });
+
         }
     }
 

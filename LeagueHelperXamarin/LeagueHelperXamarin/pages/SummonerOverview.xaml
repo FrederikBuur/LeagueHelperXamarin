@@ -3,6 +3,54 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="LeagueHelperXamarin.pages.SummonerOverview">
     <ContentPage.Content>
-        <Label Text="hey"/>
+        <StackLayout
+            VerticalOptions="FillAndExpand"
+            HorizontalOptions="FillAndExpand"
+            Orientation="Vertical">
+            <StackLayout
+                VerticalOptions="Start"
+                HorizontalOptions="FillAndExpand"
+                Orientation="Horizontal"
+                Margin="16">
+                <Image x:Name="profileIcon"
+                       HorizontalOptions="Start"
+                       HeightRequest="100"
+                       WidthRequest="100"/>
+                <StackLayout
+                    VerticalOptions="Center"
+                    HorizontalOptions="Start"
+                    Orientation="Vertical"
+                    Spacing="0">
+                    <Label x:Name="name" Style="{DynamicResource TitleStyle}"/>
+                    <Label x:Name="level"/>
+                    <Label x:Name="rank"/>
+                    <Label x:Name="winrate"/>
+                </StackLayout>
+            </StackLayout>
+            <ListView x:Name="matchesListView" 
+                  HasUnevenRows="True"
+                  ItemSelected="MatcheOnClick"
+                  SelectionMode="Single">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell Height="80">
+                            <!--<StackLayout Padding="5" Orientation="Horizontal" VerticalOptions="Fill">
+                                <Image x:Name="img" Aspect="AspectFit" HeightRequest="60" WidthRequest="60">
+                                    <Image.Source>
+                                        <UriImageSource Uri="{Binding ChampIconImageUrl}"/>
+                                    </Image.Source>
+                                </Image>
+                                <StackLayout Orientation="Vertical" VerticalOptions="Start" Spacing="0">
+                                    <Label x:Name="name" FontSize="Large"
+                                   Text="{Binding Name}"/>
+                                    <Label x:Name="title"
+                                   Text="{Binding Title}"/>
+                                </StackLayout>
+                            </StackLayout>-->
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </StackLayout>
     </ContentPage.Content>
 </ContentPage>
