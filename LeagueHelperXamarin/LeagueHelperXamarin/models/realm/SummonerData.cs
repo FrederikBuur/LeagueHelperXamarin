@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Text.RegularExpressions;
 
 namespace LeagueHelperXamarin.models
 {
@@ -25,6 +26,15 @@ namespace LeagueHelperXamarin.models
             this.Name = Name;
             this.Level = Level;
             this.profileIconId = profileIconId;
+        }
+
+        public static bool nameIsValid(string name)
+        {
+            string regex = "^[0-9\\p{L}\\ _\\.]{3,16}$";
+
+            bool isValidName = Regex.IsMatch(name, regex);
+
+            return isValidName;
         }
 
     }

@@ -8,7 +8,7 @@ using Newtonsoft.Json;
 
 namespace LeagueHelperXamarin.controllers
 {
-    class DDController
+    public class DDController
     {
         public static async Task CheckForUpdates()
         {
@@ -17,14 +17,13 @@ namespace LeagueHelperXamarin.controllers
             {
                 using (HttpResponseMessage response = await ApiHelper.DDApiClient.GetAsync(path))
                 {
-                    var localVersion = new Version(RealmController.getMetaData().localVersion);
+                    var localVersion = RealmController.getMetaData().localVersion;
                     if (response.IsSuccessStatusCode)
                     {
                         string[] versions = await response.Content.ReadAsAsync<string[]>();
-                        var newestVersion = new Version(versions[0]);
+                        var newestVersion = versions[0];
 
-                        if (localVersion == null || localVersion.Equals("") ||
-                            newestVersion.CompareTo(localVersion) > 0)
+                        if (versionShouldUpdate(localVersion, newestVersion))
                         {
                             // save newest verison local and update
                             Console.WriteLine("save newest verison local and update");
@@ -87,6 +86,24 @@ namespace LeagueHelperXamarin.controllers
             catch (Exception e)
             {
                 throw new Exception(e.Message);
+            }
+        }
+
+        public static bool versionShouldUpdate(string localVersion, string newestVersion)
+        {
+
+            var nv = new Version(newestVersion);
+            var lv = new Version(localVersion);
+
+            if (lv == null ||
+                lv.Equals("") ||
+                nv.CompareTo(lv) > 0)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
             }
         }
     }

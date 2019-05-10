@@ -44,7 +44,7 @@ namespace LeagueHelperXamarin.pages
             string summonerSearch = SearchInput.Text;
 
             //validate name local
-            if (nameIsValid(summonerSearch))
+            if (SummonerData.nameIsValid(summonerSearch))
             {
                 SummonerData sum = null;
                 //validate name remote
@@ -61,8 +61,8 @@ namespace LeagueHelperXamarin.pages
                    }
                    else
                    {
-                        //push to summoner overview TEMP
-                        NavigateToSummonerOverview(sum);
+                       //push to summoner overview TEMP
+                       NavigateToSummonerOverview(sum);
                    }
                });
             }
@@ -70,15 +70,6 @@ namespace LeagueHelperXamarin.pages
             {
                 await DisplayAlert("Invalid search", "The Summoner name is invalid", "Ok");
             }
-        }
-
-        private bool nameIsValid(string name)
-        {
-            string regex = "^[0-9\\p{L}\\ _\\.]{3,16}$";
-
-            bool isValidName = Regex.IsMatch(name, regex);
-
-            return isValidName;
         }
 
         private void NavigateToSummonerOverview(SummonerData sumData)
