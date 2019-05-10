@@ -49,19 +49,22 @@ namespace LeagueHelperXamarin.pages
                 SummonerData sum = null;
                 //validate name remote
                 await RiotController.SearchSummoner(summonerSearch)
-                    .ContinueWith(async task =>
-                {
-                    sum = task.Result;
-                    if (sum == null)
-                    {
-                        await DisplayAlert("Summoner Not Found", "A summoner with that names does not exist", "OK");
-                    }
-                    else
-                    {
+                    .ContinueWith(task =>
+               {
+                   sum = task.Result;
+                   if (sum == null)
+                   {
+                       Device.BeginInvokeOnMainThread(() =>
+                       {
+                           DisplayAlert("Summoner Not Found", "A summoner with that names does not exist", "OK");
+                       });
+                   }
+                   else
+                   {
                         //push to summoner overview TEMP
                         NavigateToSummonerOverview(sum);
-                    }
-                });
+                   }
+               });
             }
             else
             {

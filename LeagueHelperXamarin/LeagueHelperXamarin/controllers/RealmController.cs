@@ -57,6 +57,13 @@ namespace LeagueHelperXamarin.controllers
             }
         }
 
+        public static Champion getChampion(int id)
+        {
+            var realm = Realm.GetInstance();
+            Champion champion = realm.All<Champion>().Where(c => c.Key == id).FirstOrDefault();
+            return champion;
+        }
+
         public static void createOrUpdateMetaData(MetaData metaData)
         {
             var realm = Realm.GetInstance();

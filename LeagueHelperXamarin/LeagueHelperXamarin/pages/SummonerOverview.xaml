@@ -6,6 +6,7 @@
         <StackLayout
             VerticalOptions="FillAndExpand"
             HorizontalOptions="FillAndExpand"
+            Spacing="0"
             Orientation="Vertical">
             <StackLayout
                 VerticalOptions="Start"
@@ -27,6 +28,7 @@
                     <Label x:Name="winrate"/>
                 </StackLayout>
             </StackLayout>
+            <BoxView Color="LightGray" HeightRequest=".5"/>
             <ListView x:Name="matchesListView" 
                   HasUnevenRows="True"
                   ItemSelected="MatcheOnClick"
@@ -34,19 +36,44 @@
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <ViewCell Height="80">
-                            <!--<StackLayout Padding="5" Orientation="Horizontal" VerticalOptions="Fill">
-                                <Image x:Name="img" Aspect="AspectFit" HeightRequest="60" WidthRequest="60">
+                            <StackLayout
+                                HorizontalOptions="FillAndExpand"
+                                VerticalOptions="FillAndExpand"
+                                Orientation="Horizontal">
+                                <BoxView 
+                                    VerticalOptions="Fill"
+                                    WidthRequest="10"
+                                    Color="{Binding currentSummoner.resultColor}"/>
+                                <Image Aspect="AspectFit" 
+                                       HeightRequest="60" 
+                                       WidthRequest="60">
                                     <Image.Source>
-                                        <UriImageSource Uri="{Binding ChampIconImageUrl}"/>
+                                        <UriImageSource Uri="{Binding currentSummoner.champIconImageUrl}"/>
                                     </Image.Source>
                                 </Image>
-                                <StackLayout Orientation="Vertical" VerticalOptions="Start" Spacing="0">
-                                    <Label x:Name="name" FontSize="Large"
-                                   Text="{Binding Name}"/>
-                                    <Label x:Name="title"
-                                   Text="{Binding Title}"/>
+                                <StackLayout
+                                    VerticalOptions="Center"
+                                    Orientation="Vertical"
+                                    HeightRequest="60"
+                                    WidthRequest="30"
+                                    Spacing="0">
+                                    <Image Aspect="AspectFill"
+                                           HeightRequest="30">
+                                        <Image.Source>
+                                            <UriImageSource Uri="{Binding currentSummoner.summonerSpell1ImageUrl}"/>
+                                        </Image.Source>
+                                    </Image>
+                                    <Image Aspect="AspectFill"
+                                           HeightRequest="30">
+                                        <Image.Source>
+                                            <UriImageSource Uri="{Binding currentSummoner.summonerSpell2ImageUrl}"/>
+                                        </Image.Source>
+                                    </Image>
                                 </StackLayout>
-                            </StackLayout>-->
+                                <Label 
+                                    VerticalOptions="Center"
+                                    Text="{Binding currentSummoner.stats.score}"/>
+                            </StackLayout>
                         </ViewCell>
                     </DataTemplate>
                 </ListView.ItemTemplate>

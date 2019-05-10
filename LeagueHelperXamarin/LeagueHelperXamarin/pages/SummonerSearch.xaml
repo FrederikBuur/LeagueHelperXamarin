@@ -6,9 +6,8 @@
         <StackLayout
                 VerticalOptions="CenterAndExpand" 
                 HorizontalOptions="CenterAndExpand">
-            <Label Text="Summoner overview!"/>
             <Entry x:Name="SearchInput" Placeholder="Search Summoner..."
-                   Text="Fluffy Sick"/>
+                   Text="Fluffy Dúck"/>
             <Button Text="Search" Clicked="SearchSummonerClick"/>
         </StackLayout>
     </ContentPage.Content>

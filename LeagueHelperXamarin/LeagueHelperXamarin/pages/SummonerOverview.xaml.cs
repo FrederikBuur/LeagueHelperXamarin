@@ -17,8 +17,9 @@ namespace LeagueHelperXamarin.pages
     {
 
         private LeagueEntityResponse leagueEntityResponse { get; set; }
-        private string[] matchHistory { get; set; }
         private SummonerData summonerData { get; set; }
+
+        public MatchDetailResponse[] mdr;
 
         public SummonerOverview(SummonerData summonerData)
         {
@@ -64,9 +65,11 @@ namespace LeagueHelperXamarin.pages
         {
             RiotController.FetchSummonerMatches(summonerData.AccountId, 0, 10).ContinueWith(task =>
             {
-                MatchDetailResponse[] mdr = task.Result;
-                matchesListView.ItemsSource = mdr;
-
+                Device.BeginInvokeOnMainThread(() =>
+                {
+                    mdr = task.Result;
+                    matchesListView.ItemsSource = mdr;
+                });
             });
         }
 

@@ -62,7 +62,7 @@ namespace LeagueHelperXamarin.controllers
                                  where entity.QueueType == "RANKED_SOLO_5x5"
                                  select entity;
 
-                        SessionController.getInstance().leagueEntityResponse = le.First();
+                        SessionController.getInstance().leagueEntityResponse = le.FirstOrDefault();
 
                         return le.FirstOrDefault();
                     }
