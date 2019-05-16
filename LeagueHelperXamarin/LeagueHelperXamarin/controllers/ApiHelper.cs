@@ -8,7 +8,7 @@ namespace LeagueHelperXamarin.controllers
 {
     public static class ApiHelper
     {
-        public static string API_KEY = "RGAPI-a36c467b-eca2-4d93-a4ac-e21793509308";
+        public static string API_KEY = "RGAPI-64c30f10-c697-4bd6-9380-198c59ce6b77";
 
         public static HttpClient DDApiClient { get; set; }
         public static HttpClient RiotApiClient { get; set; }

@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using System.Net.Http;
 using LeagueHelperXamarin.models;
 using Newtonsoft.Json;
+using System.Net.Http.Formatting;
 
 namespace LeagueHelperXamarin.controllers
 {
@@ -20,7 +21,13 @@ namespace LeagueHelperXamarin.controllers
                     var localVersion = RealmController.getMetaData().localVersion;
                     if (response.IsSuccessStatusCode)
                     {
-                        string[] versions = await response.Content.ReadAsAsync<string[]>();
+                        //var formatters = new MediaTypeFormatter[] { new JsonMediaTypeFormatter() };
+                        //string[] versions = await response.Content.ReadAsAsync<string[]>(formatters);
+
+                        var asString = await response.Content.ReadAsStringAsync();
+
+                        string[] versions = JsonConvert.DeserializeObject<string[]>(asString);
+
                         var newestVersion = versions[0];
 
                         if (versionShouldUpdate(localVersion, newestVersion))
